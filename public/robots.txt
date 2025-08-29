@@ -1,0 +1,9 @@
+# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+#
+# This file should be placed in the public directory of your Next.js project.
+
+User-agent: *
+Allow: /
+Disallow: /api/ # Disallow crawling of API routes
+
+Sitemap: https://proteinperscoop.com/sitemap.xml # Replace with your actual domain
