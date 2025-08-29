@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 // Function to fetch deals from your API
 async function getDeals() {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/getDeals`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}/api/getDeals`, {
       next: { revalidate: 3600 } // Cache for 1 hour
     });
     if (!res.ok) {
