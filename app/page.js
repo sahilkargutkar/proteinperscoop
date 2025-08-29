@@ -3,7 +3,7 @@
 import Image from "next/image";
 import CardComponent from "./components/card/card.component";
 import { SkeletonGrid } from "./components/skeleton/skeleton.component";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { redirect,useRouter } from "next/navigation";
 import { getCategorySlug } from "./utils/helpers";
 
@@ -35,7 +35,7 @@ export default function Home() {
   };
 
   // Function to handle API call
-  const fetchDeals = async () => {
+  const fetchDeals = useCallback(async () => {
     setLoading(true);
     setError(null);
     
@@ -80,11 +80,11 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  useEffect(()=>{
-    fetchDeals()
-  },[])
+  useEffect(() => {
+    fetchDeals();
+  }, [fetchDeals]);
 
 
 
@@ -188,7 +188,7 @@ export default function Home() {
             <div className="text-8xl mb-6">🔍</div>
             <h3 className="text-3xl font-bold text-white mb-4">No deals found</h3>
             <p className="text-xl text-gray-400 mb-8 max-w-md mx-auto">
-              We're working hard to find the best deals for you. Check back soon!
+              We&apos;re working hard to find the best deals for you. Check back soon!
             </p>
             <button 
               onClick={fetchDeals}

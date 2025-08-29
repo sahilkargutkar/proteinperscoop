@@ -1,9 +1,36 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
-#
-# This file should be placed in the public directory of your Next.js project.
+# robots.txt for Protein Per Scoop
+# See https://www.robotstxt.org/robotstxt.html for documentation
 
 User-agent: *
 Allow: /
-Disallow: /api/ # Disallow crawling of API routes
 
-Sitemap: https://proteinperscoop.com/sitemap.xml # Replace with your actual domain
+# Allow search engines to crawl category pages and public content
+Allow: /category/
+
+# Disallow crawling of API routes to prevent unnecessary server load
+Disallow: /api/
+
+# Disallow any temporary or development files
+Disallow: /private/
+Disallow: /_next/static/
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://proteinperscoop.com/sitemap.xml
+
+# Crawl delay for better server performance
+Crawl-delay: 1
+
+# Google-specific directives for better indexing
+User-agent: Googlebot
+Allow: /
+Allow: /category/
+Disallow: /api/
+Crawl-delay: 1
+
+# Bing-specific directives
+User-agent: Bingbot
+Allow: /
+Allow: /category/
+Disallow: /api/
+Crawl-delay: 1

@@ -1,12 +1,64 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import CardComponent from '../../components/card/card.component';
 import { SkeletonGrid } from '../../components/skeleton/skeleton.component';
 import { getAllDeals, getDBCategory } from '@/app/utils/helpers';
 import { useParams } from 'next/navigation'
 
-const CategoryPage = ({  }) => {
+// Metadata for category pages
+export async function generateMetadata({ params }) {
+  const category = params?.category;
+  const formatCategoryName = (category) => {
+    return category ? category.replace(/-/g, ' ').split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+        .join(' ') : 'Category';
+  };
+
+  const categoryName = formatCategoryName(category);
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://proteinperscoop.com';
+
+  return {
+    title: `${categoryName} Deals - Best Protein Supplement Discounts | Protein Per Scoop`,
+    description: `Find the best ${categoryName.toLowerCase()} deals and discounts. Compare prices, save up to 60% on top brands. Updated daily with the latest protein supplement offers.`,
+    keywords: [
+      `${categoryName.toLowerCase()} deals`,
+      `${categoryName.toLowerCase()} discounts`,
+      `${categoryName.toLowerCase()} supplements`,
+      `best ${categoryName.toLowerCase()}`,
+      `cheap ${categoryName.toLowerCase()}`,
+      `${categoryName.toLowerCase()} offers`,
+      'protein supplements',
+      'fitness nutrition',
+      'supplement deals'
+    ],
+    openGraph: {
+      title: `${categoryName} Deals - Best Protein Supplement Discounts`,
+      description: `Find the best ${categoryName.toLowerCase()} deals and discounts. Save up to 60% on top brands.`,
+      url: `/category/${category}`,
+      type: 'website',
+      images: [
+        {
+          url: `/og-${category}.png`,
+          width: 1200,
+          height: 630,
+          alt: `${categoryName} Deals - Protein Per Scoop`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${categoryName} Deals - Best Protein Supplement Discounts`,
+      description: `Find the best ${categoryName.toLowerCase()} deals and discounts. Save up to 60% on top brands.`,
+      images: [`/twitter-${category}.png`],
+    },
+    alternates: {
+      canonical: `${baseUrl}/category/${category}`,
+    },
+  };
+}
+
+const CategoryPage = () => {
     const [deals, setDeals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,7 +73,7 @@ const CategoryPage = ({  }) => {
             .join(' ') : 'Category';
     };
 
-    const fetchCategoryDeals = async () => {
+    const fetchCategoryDeals = useCallback(async () => {
         setLoading(true);
         setError(null);
         
@@ -42,13 +94,13 @@ const CategoryPage = ({  }) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [categoryFromDB]);
 
     useEffect(() => {
         if (categoryFromDB) {
             fetchCategoryDeals();
         }
-    }, [categoryFromDB]);
+    }, [categoryFromDB, fetchCategoryDeals]);
 
     if (loading) {
         return (
@@ -138,7 +190,7 @@ const CategoryPage = ({  }) => {
                             No deals found
                         </h2>
                         <p className="text-xl text-gray-600 mb-8 max-w-md mx-auto">
-                            We couldn't find any deals in the {formatCategoryName(categoryFromDB)} category right now.
+                            We couldn&apos;t find any deals in the {formatCategoryName(categoryFromDB)} category right now.
                         </p>
                         <button 
                             onClick={() => router.push('/')}
