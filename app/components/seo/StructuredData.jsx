@@ -1,22 +1,24 @@
 export default function StructuredData() {
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
+  
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://proteinperscoop.com/#website",
-        "url": "https://proteinperscoop.com/",
+        "@id": `${baseUrl}/#website`,
+        "url": `${baseUrl}/`,
         "name": "Protein Per Scoop",
         "description": "Find the best protein supplement deals, discounts, and savings. Compare prices on whey protein, creatine, and fitness nutrition from top brands.",
         "publisher": {
-          "@id": "https://proteinperscoop.com/#organization"
+          "@id": `${baseUrl}/#organization`
         },
         "potentialAction": [
           {
             "@type": "SearchAction",
             "target": {
               "@type": "EntryPoint",
-              "urlTemplate": "https://proteinperscoop.com/search?q={search_term_string}"
+              "urlTemplate": `${baseUrl}/search?q={search_term_string}`
             },
             "query-input": "required name=search_term_string"
           }
@@ -25,21 +27,21 @@ export default function StructuredData() {
       },
       {
         "@type": "Organization",
-        "@id": "https://proteinperscoop.com/#organization",
+        "@id": `${baseUrl}/#organization`,
         "name": "Protein Per Scoop",
-        "url": "https://proteinperscoop.com/",
+        "url": `${baseUrl}/`,
         "logo": {
           "@type": "ImageObject",
           "inLanguage": "en-US",
-          "@id": "https://proteinperscoop.com/#/schema/logo/image/",
-          "url": "https://proteinperscoop.com/logo.png",
-          "contentUrl": "https://proteinperscoop.com/logo.png",
+          "@id": `${baseUrl}/#/schema/logo/image/`,
+          "url": `${baseUrl}/logo.png`,
+          "contentUrl": `${baseUrl}/logo.png`,
           "width": 512,
           "height": 512,
           "caption": "Protein Per Scoop"
         },
         "image": {
-          "@id": "https://proteinperscoop.com/#/schema/logo/image/"
+          "@id": `${baseUrl}/#/schema/logo/image/`
         },
         "sameAs": [
           "https://www.facebook.com/proteinperscoop",
@@ -49,38 +51,38 @@ export default function StructuredData() {
       },
       {
         "@type": "WebPage",
-        "@id": "https://proteinperscoop.com/#webpage",
-        "url": "https://proteinperscoop.com/",
+        "@id": `${baseUrl}/#webpage`,
+        "url": `${baseUrl}/`,
         "name": "Protein Per Scoop - Best Protein Supplement Deals & Fitness Nutrition",
         "isPartOf": {
-          "@id": "https://proteinperscoop.com/#website"
+          "@id": `${baseUrl}/#website`
         },
         "about": {
-          "@id": "https://proteinperscoop.com/#organization"
+          "@id": `${baseUrl}/#organization`
         },
         "datePublished": "2024-01-01T00:00:00+00:00",
         "dateModified": new Date().toISOString(),
         "description": "Find the best protein supplement deals, discounts, and savings. Compare prices on whey protein, creatine, and fitness nutrition from top brands.",
         "breadcrumb": {
-          "@id": "https://proteinperscoop.com/#breadcrumb"
+          "@id": `${baseUrl}/#breadcrumb`
         },
         "inLanguage": "en-US",
         "potentialAction": [
           {
             "@type": "ReadAction",
-            "target": ["https://proteinperscoop.com/"]
+            "target": [`${baseUrl}/`]
           }
         ]
       },
       {
         "@type": "BreadcrumbList",
-        "@id": "https://proteinperscoop.com/#breadcrumb",
+        "@id": `${baseUrl}/#breadcrumb`,
         "itemListElement": [
           {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://proteinperscoop.com/"
+            "item": `${baseUrl}/`
           }
         ]
       }

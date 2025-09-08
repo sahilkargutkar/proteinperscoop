@@ -2,18 +2,23 @@
 import { useState } from 'react';
 import qrcode from "../../images/download.png"
 import Image from 'next/image';
+import { useAnalytics } from '../../hooks/useAnalytics';
 
 const DonateButton = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState(null);
+  const { trackDonateClick } = useAnalytics();
 
   return (
     <>
       {/* Floating Support Button */}
       <div className="fixed bottom-8 right-8 z-50">
         <button
-          onClick={() => setShowModal(true)}
+          onClick={() => {
+            trackDonateClick();
+            setShowModal(true);
+          }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           className="group relative text-white px-5 py-3 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center space-x-2 border-2 border-white/30 backdrop-blur-sm"

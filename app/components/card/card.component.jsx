@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
-
+import { trackDealClick } from '../../lib/analytics';
 
 const CardComponent = ({
   id,
@@ -110,6 +110,13 @@ const CardComponent = ({
 
    const handleRouteChange = (url) => {
     if (url) {
+        // Track deal click event
+        trackDealClick(
+            dealTitle || title || name,
+            category,
+            dealPrice || price || original_price
+        );
+        
         // Open external link in a new tab/window
         window.open(url, '_blank', 'noopener,noreferrer');
     }

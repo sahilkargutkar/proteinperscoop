@@ -3,6 +3,7 @@ import "./globals.css";
 import DonateButton from "./components/donate/DonateButton";
 import StructuredData from "./components/seo/StructuredData";
 import Analytics from "./components/seo/Analytics";
+import GoogleAnalytics from "./lib/analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -63,35 +64,39 @@ export const metadata = {
     images: ['/twitter-image.png'],
   },
   verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || 'your-google-verification-code',
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || 'your-yandex-verification-code',
+    yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION || 'your-yahoo-verification-code',
   },
   category: 'fitness',
+  manifest: '/manifest.json',
+  themeColor: '#dc2626',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Protein Per Scoop',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'msapplication-TileColor': '#dc2626',
+    'msapplication-config': '/browserconfig.xml',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
+      <body className={inter.className}>
         <StructuredData />
         <Analytics />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_APP_URL || 'https://proteinperscoop.com'}`} />
-        <meta name="theme-color" content="#dc2626" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="Protein Per Scoop" />
-        <meta name="msapplication-TileColor" content="#dc2626" />
-        <meta name="msapplication-config" content="/browserconfig.xml" />
-      </head>
-      <body className={inter.className}>
+        <GoogleAnalytics />
         {children}
         <DonateButton />
       </body>

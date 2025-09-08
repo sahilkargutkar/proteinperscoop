@@ -4,6 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import CardComponent from '../../components/card/card.component';
 import { SkeletonGrid } from '../../components/skeleton/skeleton.component';
 import { getAllDeals, getDBCategory } from '../../utils/helpers';
+import { trackCategoryView } from '../../lib/analytics';
 
 const CategoryClient = () => {
     const [deals, setDeals] = useState([]);
@@ -46,6 +47,8 @@ const CategoryClient = () => {
     useEffect(() => {
         if (categoryFromDB) {
             fetchCategoryDeals();
+            // Track category view
+            trackCategoryView(categoryFromDB);
         }
     }, [categoryFromDB, fetchCategoryDeals]);
 
