@@ -89,6 +89,7 @@ export default function Home() {
   };
 
   return (
+    <>
     <div className="min-h-screen relative overflow-hidden" style={{ 
       background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)'
     }}>
@@ -278,5 +279,6 @@ export default function Home() {
         )}
       </div>
     </div>
+    </>
   );
 }
