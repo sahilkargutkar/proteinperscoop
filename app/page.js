@@ -1,12 +1,10 @@
-"use client"
+'use client';
 
-import Image from "next/image";
-import CardComponent from "./components/card/card.component";
-import { SkeletonGrid } from "./components/skeleton/skeleton.component";
-import { useState, useEffect, useCallback } from "react";
-import { redirect,useRouter } from "next/navigation";
-import { getCategorySlug } from "./utils/helpers";
-
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import CardComponent from './components/card/card.component';
+import { SkeletonGrid } from './components/skeleton/skeleton.component';
+import { getCategorySlug } from './utils/helpers';
 
 export default function Home() {
   const [categorizedDeals, setCategorizedDeals] = useState({});
@@ -48,7 +46,6 @@ export default function Home() {
       
       const data = await response.json();
       
-     
       let categorized = {};
       
       if (data.success && data.data && data.data.categories) {
@@ -86,18 +83,16 @@ export default function Home() {
     fetchDeals();
   }, [fetchDeals]);
 
-
-
   const handleRouteChange = (category) => {
     const route = getCategorySlug(category);
     router.push(`/category/${route}`);
-  };  
+  };
 
   return (
-    <div className="min-h-screen" style={{ 
+    <div className="min-h-screen relative overflow-hidden" style={{ 
       background: 'linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%)'
     }}>
-       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section with Catchy Title */}
         <div className="text-center mb-20 relative">
           {/* Background decoration */}
@@ -216,7 +211,7 @@ export default function Home() {
               </div>
               
               <button 
-                className="group relative text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ease-in-out transform hover:scale-105 shadow-xl hover:shadow-2xl border-2 border-transparent overflow-hidden"
+                className="group relative text-white px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ease-in-out transform hover:scale-105 shadow-xl cursor:pointer hover:shadow-2xl border-2 border-transparent overflow-hidden"
                 style={{ 
                   background: 'linear-gradient(135deg, #CD1C18 0%, #FFA896 50%, #CD1C18 100%)',
                   backgroundSize: '200% 200%',
@@ -237,36 +232,25 @@ export default function Home() {
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {categorizedDeals[category].map((item, index) => (
-                <div 
-                  key={index}
-                  className="transform transition-all duration-300 hover:scale-102"
-                  style={{ 
-                    animationDelay: `${index * 100}ms`,
-                    animation: 'fadeInUp 0.6s ease-out forwards'
-                  }}
-                >
-                  <CardComponent {...item} />
-                </div>
-              ))}
+              {categorizedDeals[category].map((item, index) => {
+                // Calculate global index for priority loading
+                const globalIndex = categoryIndex * 4 + index;
+                return (
+                  <div
+                    key={`${category}-${index}`}
+                    className="transform transition-all duration-300 hover:scale-102"
+                    style={{ 
+                      animationDelay: `${index * 100}ms`,
+                      animation: 'fadeInUp 0.6s ease-out forwards'
+                    }}
+                  >
+                    <CardComponent {...item} index={globalIndex} />
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))}
-        
-        {/* Floating Action Button */}
-        {/* {!loading && Object.keys(categorizedDeals).length > 0 && (
-          <div className="fixed bottom-8 right-8 z-50">
-            <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="group bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 hover:shadow-red-500/25"
-              style={{ boxShadow: '0 8px 25px rgba(205, 28, 24, 0.4)' }}
-            >
-              <svg className="w-6 h-6 transition-transform group-hover:-translate-y-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
-              </svg>
-            </button>
-          </div>
-        )} */}
         
         {/* Footer */}
         {!loading && Object.keys(categorizedDeals).length > 0 && (
@@ -283,7 +267,7 @@ export default function Home() {
                   placeholder="Enter your email for deal alerts"
                   className="px-6 py-4 rounded-xl border-2 border-gray-700 bg-gray-900 text-white placeholder-gray-400 focus:border-red-500 focus:outline-none transition-colors duration-300 w-full sm:w-80"
                 />
-                <button 
+                <button
                   className="px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 whitespace-nowrap"
                 >
                   Get Deals 🔥

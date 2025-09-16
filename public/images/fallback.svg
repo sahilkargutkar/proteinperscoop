@@ -1,0 +1,7 @@
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#f3f4f6"/>
+  <g fill="#9ca3af" font-family="Arial, sans-serif" font-size="14" text-anchor="middle">
+    <text x="200" y="140">🏋️</text>
+    <text x="200" y="165" font-size="12">Image Not Available</text>
+  </g>
+</svg>

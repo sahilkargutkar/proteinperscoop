@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 import { trackDealClick } from '../../lib/analytics';
+import OptimizedImage from '../ui/OptimizedImage';
 
 const CardComponent = ({
   id,
@@ -23,6 +24,7 @@ const CardComponent = ({
   brand,
   website,
   stock_status,
+  index = 0, // Add index prop for priority loading
   ...props
 }) => {
    // State for dynamic freshness updates
@@ -100,12 +102,14 @@ const CardComponent = ({
    const dealDiscount = calculateDiscount() || discount_percentage;
 
    const getStockImage = (category) => {
+    console.log("Getting stock image for category:", category);
+
        const stockImages = {
            "Fish Oil": "https://media.istockphoto.com/id/654379506/photo/two-capsules-omega-3-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=fAM84_HDeY9sOnTEhIx2po15KCDnuqbpUpbYWO_RM88=",
-           "Creatine": "https://images.unsplash.com/photo-1693996045435-af7c48b9cafb?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y3JlYXRpbmV8ZW58MHx8MHx8fDA%3D",
-           main: "https://via.placeholder.com/500?text=Main+Course",
+           "Performance Supplements": "https://images.unsplash.com/photo-1693996045435-af7c48b9cafb??w=400&h=300&fit=crop&crop=center",
+           "Protein": "https://via.placeholder.com/500?text=Main+Course",
        };
-       return stockImages[category] || "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
+       return stockImages[category] || stockImages.main
    };
 
    const handleRouteChange = (url) => {
@@ -185,11 +189,16 @@ const CardComponent = ({
         >
             {/* Image Container with Enhanced Overlays */}
             <div className="relative h-56 overflow-hidden">
-                <img 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                <OptimizedImage
                     src={dealImage || getStockImage(dealCategory)}
-                    alt={dealTitle}
-                    loading="lazy"
+                    alt={dealTitle || `${dealCategory} supplement deal`}
+                    width={400}
+                    height={224}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    priority={index < 3} // Prioritize first 3 images for faster loading
+                    preload={index < 6} // Preload first 6 images
+                    fallbackSrc={getStockImage(dealCategory)}
                 />
                 
                 {/* Gradient Overlay */}
